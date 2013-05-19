@@ -159,13 +159,21 @@ function makeItemLinks( key, linksLi ){
 	deleteLink.href = "#";
 	deleteLink.key = key;
 	var deleteText = "Delete Info";
-	//deleteLink.addEventListener("click", deleteItem);
+	deleteLink.addEventListener("click", deleteItem);
 	deleteLink.innerHTML = deleteText;
 	linksLi.appendChild(deleteLink);
 
 }
 
-
+function deleteItem () {
+	var askConfirm = confirm("are you sure want to delete info?");
+	if(askConfirm){
+		localStorage.removeItem(this.key);
+		window.location.reload();
+	}else{
+		alert("Nothing has been change");
+	}
+}
 
 function editItem() {
 // get item from local storage.
@@ -181,21 +189,20 @@ function editItem() {
 	main('name').value  = it.name[1];
 	main('group').value = it.group[1];
 	main('aDate').value = it.aDate[1]; 
-	main('range').value = it.range[1];   
-		
-/*	var rad = document.forms[0].seasonValue;
-		for(var i = 0; i < rad.length; i++) {
-			if(rad[i].value == "season" && it.seasonValue[1] == "single") {
-				rad[i].setAttribute("checked", "checked");
-			}else if(rad[i].value == "single" && it.seasonValue[1] == "season"){
-				rad[i].setAttribute("checked", "checked");
-	    }
-	
-    } */
-
+	main('range').value = it.range[1];  
 	main("payments").value = it.payments[1];
 	main("concerns").value = it.concerns[1];  
 	
+/*	var rad = document.forms[0].seasonValue;
+	for(var i = 0; i < rad.length; i++) {
+		if(rad[i].value == "season" && it.seasonValue[1] == "single") {
+			rad[i].setAttribute("checked", "checked");
+		}else if(rad[i].value == "single" && it.seasonValue[1] == "season"){
+			rad[i].setAttribute("checked", "checked");
+	    }
+	
+    }  */
+
 	// Remove the initial listener from the input save button.
 	saveButton.removeEventListener("click", storeLocalData);
 	//change submit button value to edit button
@@ -227,15 +234,8 @@ function validate( e ) {
 		
 	var getSport 	   = main("sport");
 	var getTname  	   = main("tname");	
-	var getName	   = main("name");
-			
-	/*  var getGroup	   = main("group");
-	    var getAdate	   = main("aDate");
-	    var getRange	   = main("range");
-	    var getSeason      = main("season");
-	    var getPayments	   = main("payments");	
-	    var getConcerns    = main("concerns");    
-	*/
+	var getName	       = main("name");
+	var getRange	   = main("range");
 			
 	// reset error messages from reprinting in form edit
 	errorMsg.innerHTML = " ";
@@ -263,15 +263,7 @@ function validate( e ) {
 		getName.style.border = "2px solid red";
 		messageArray.push(nameError);
 	}
-		
-	/*	Email Validation
-		var re = /^\w+([\.-]?\w+)*@\w([\.-]?\w+)*(\.\w{2,3}}+$/;
-		if(!(re.exec(getEmail.value))){
-			var emailError = "Please enter a valid email address.";
-			getEmail.style.border = "1px solid red";
-			messageArray.push(emailError);      		
-   */
-   
+
 	if(messageArray.length >= 1){
 		for(var i=0, j=messageArray.length; i<j; i++){
 			var text = document.createElement("li");
