@@ -15,6 +15,10 @@
  		<h1 id="h1">Ticket Hub</h1>
  	    <h2 id="h2" >Ticket Info</h2> 
    </header>
+   		<nav>
+   			<a href="#" id="Info"> Show Info</a>
+			<a href="../additem/additem.html" id="clearData">Clear Data</a>
+		</nav>
    <form action="#" method = "post" id="forms">
        <fieldset>
 			<legend>Information</legend>
@@ -36,8 +40,9 @@
  			</ul>		
  			</label>
 			<div>
+				<label>Chose 1 - 100 tickets</label>
 				<input id="range" type="range" min="0" max="100" value="1"/>
-			        <input id="tickets" type="text" value="1"/>
+			    <input id="tickets" type="text" value="1"/>
 			</div>		 
 	   </fieldset>
 	   <fieldset>
@@ -57,12 +62,10 @@
 	 		</ul>
 	  </fieldset>
 	</form>
-		<nav>
-			<input type="button" value="save contacts" id="saveValues" </>
-	  		<a href="#" id="Info"> Show Info</a>
-			<a href="../additem/additem.html" id="clearData">Clear Data</a>
-	  		<a href="../additem/additem.html" id="back" style="display:none;" > Back </a>		    			
-		</nav>
+			<nav>
+			<input type="button" value="Save All" id="saveValues" </>
+	  		<a href="../additem/additem.html" id="back" style="display:none;"> Back </a>		    			
+			</nav>
   	  <script type="text/javascript" src="../js/main.js"></script>
 	</body>
 </html>
