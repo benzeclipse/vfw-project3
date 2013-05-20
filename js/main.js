@@ -55,8 +55,9 @@ function toggle( togg ) {
 	 		main("forms").style.display = "block";
 	 		main('Info').style.display ="none";
 	 		main('clearData').style.display ="none";
-	 		main('saveValues').style.display = "inline";
+	 		main('saveValues').style.display = "block";
 	 		main('items').style.display="none";
+	 		
 	 	break;
 	 		default:
 	 			return false;
@@ -115,20 +116,20 @@ function getData () {
 
 		// looking in local storage
 		for(var i=0, j=localStorage.length; i<j; i++) {
-		var makeli = document.createElement("li");
+		var makeli = document.createElement("ul");
 			
-		var linksLi = document.createElement("li");  //creating another list item for week 3
+		var linksLi = document.createElement("ul");  //creating another list item for week 3
 			
 		makeList.appendChild(makeli);
 		var key = localStorage.key(i);
 		var value = localStorage.getItem(key);
 		var object = JSON.parse(value); // convert local storage string back to object
-		var makeSubList = document.createElement("ul");
+		var makeSubList = document.createElement("li");
 		makeli.appendChild(makeSubList);
 		for ( var m in object ) {
 			var makeSubLi = document.createElement("li");
 			makeSubList.appendChild(makeSubLi);
-			var optSub = object[m][0]+" : "+object[m][1];
+			var optSub = object[m][0]+": "+object[m][1];
 			makeSubLi.innerHTML = optSub;
 			makeSubList.appendChild(linksLi); //append dynamically week 3
 
@@ -209,14 +210,14 @@ function editItem() {
     main("saveValues").value = "Edit Info";
 	// key value used in this function as a property of the editSubmit even
 	var editSubmit = main("saveValues");  
-	editSubmit.addEventListener("click", validate);
+	editSubmit.addEventListener("click", validateForm);
 	editSubmit.key = this.key; // enabling submit key
 	
 }
 
 function clearLocalData () {
-//	var youSure = confirm("You sure you want to delete?");
-		//if(youSure) {  
+	var youSure = confirm("You sure you want to delete?");
+		 if(youSure) {  
 		 	if( localStorage.length === 0){
 				alert("Local storage is empty")
 			}else{   
@@ -225,20 +226,21 @@ function clearLocalData () {
 				window.location.reload();
 				//return false;
 			}
-	//} 
+	} 
 
 }
 
-function validate( e ) {
+function validateForm( eventData ) {
 // Define the elements we want to check
-		
+	
+	errorMsg.style.border = "";	
 	var getSport 	   = main("sport");
 	var getTname  	   = main("tname");	
 	var getName	       = main("name");
 	var getRange	   = main("range");
 			
 	// reset error messages from reprinting in form edit
-	errorMsg.innerHTML = " ";
+	errorMsg.innerHTML = " ";	
 	getSport.style.border = "1px solid black";
 	getTname.style.border = "1px solid black";
 	getName.style.border = "1px solid black";
@@ -247,30 +249,34 @@ function validate( e ) {
 	var messageArray = [ ];
 	// validation
 	if (getSport.value === ""){
-	var sportError = "Please choose a sport.";
-	getSport.style.border = "2px solid red";
+	var sportError = "Please choose a sport...";
+	errorMsg.style.color = "red";
+	errorMsg.style.fontSize = "14px";
+	getSport.style.border = "1px solid red";
 	messageArray.push(sportError);
 	}
 		
 	if (getTname.value === "") {
-		var tNameError = "Please enter a team name.";
-		getTname.style.border = "2px solid red";
+		var tNameError = "Please enter a team name...";
+		errorMsg.style.color = "red";
+		getTname.style.border = "1px solid red";
 		messageArray.push(tNameError);
 	}
 	
 	if (getName.value === "") {
-		var nameError = "Please enter your name.";
-		getName.style.border = "2px solid red";
+		var nameError = "Please enter your name...";
+		errorMsg.style.color = "red";
+		getName.style.border = "1px solid red";
 		messageArray.push(nameError);
 	}
 
 	if(messageArray.length >= 1){
 		for(var i=0, j=messageArray.length; i<j; i++){
-			var text = document.createElement("li");
+			var text = document.createElement("div");
 			text.innerHTML = messageArray[i];
 			errorMsg.appendChild(text);
 		}
-		e.preventDefault();
+		eventData.preventDefault();
      	return false;
  	}else{
  	   // if good, data is finally save // this key was passed through "save" as a property
@@ -304,6 +310,6 @@ sliderRange.onchange = function(){
 	
 	
 	var saveButton = main("saveValues");
-	saveButton.addEventListener("click",  validate);
+	saveButton.addEventListener("click",  validateForm);
 
 });
